@@ -9,6 +9,8 @@ i have added console.log on line 48
 
  */
 
+var token = "EAAUZBMi93K0kBAMYEZCQZCYNoi1PZAg7BmUHZClgyx63bYszhKHGNgCMgZC5YcOTY0mB7QVTqrjOsiwiBscR13XcZCLt4FTurpZC2Tf776TVCA8hvwhRWKr0MJHNyyZCaXZA2XYuBvLZCX1I7gU28caGDI9r8YOsmWeZCSMjUnCTAc6ASXlZCNUR0uYGq";
+
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -30,7 +32,7 @@ app.use(bodyParser.json());
 app.get('/', function (req, res) {
     res.send('hello world i am a secret bot');
     res.end();
-})
+});
 
 // for facebook verification
 app.get('/webhook/', function (req, res) {
@@ -75,7 +77,6 @@ app.post('/webhook/', function (req, res) {
 
 // recommended to inject access tokens as environmental variables, e.g.
 // const token = process.env.FB_PAGE_ACCESS_TOKEN
-const token = "EAAUZBMi93K0kBAGnxgKPuPc6rPm8iKI9GfJUx6ZAZBMQ4mFahX467jdVb5dsoT2gAPSLEYJydW9F1zCBQZCawxCNfYhQjRmIdeWSXCg8QRP3uH2ZCMBe0HpkozHQ7hCr64VdczdmiVaDXhqPSRJ7ZB8aMLLLgZBNFoq8tynZBQFXJ7iHZAhM4U5U9";
 
 
 function sendTextMessage(sender, text) {
