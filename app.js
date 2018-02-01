@@ -55,8 +55,22 @@ app.post('/webhook/', function (req, res) {
         var sender = event.sender.id;
         if (event.message && event.message.text) {
             var text = event.message.text;
-            var re;
-            re = cmds[text] || cmds.no;
+            var re = undefined;
+
+            for (var key in cmds)
+            {
+                if (text.indexOf(key) > -1)
+                {
+                    re = cmds[key];
+                    break;
+                }
+
+            }
+
+           if (re === undefined)
+           {
+               re = cmds.no;
+           }
             if (re !== null)
             {
               sendTextMessage(sender,re);
