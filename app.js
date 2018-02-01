@@ -8,17 +8,19 @@ i have added console.log on line 48
 
 
  */
+var cmds = get_Cmds();
+console.log(cmds);
 
 var token = "EAAUZBMi93K0kBAMYEZCQZCYNoi1PZAg7BmUHZClgyx63bYszhKHGNgCMgZC5YcOTY0mB7QVTqrjOsiwiBscR13XcZCLt4FTurpZC2Tf776TVCA8hvwhRWKr0MJHNyyZCaXZA2XYuBvLZCX1I7gU28caGDI9r8YOsmWeZCSMjUnCTAc6ASXlZCNUR0uYGq";
 
-
+get_Cmds();
 const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
 var fs = require('fs');
 const app = express();
 
-get_Cmds();
+
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -116,8 +118,10 @@ function sendTextMessage(sender, text) {
 
 
 function get_Cmds() {
+    var fs = require('fs');
+    //console.log(fs);
     var cmds = fs.readFileSync('commands.json').toString();
-    return JSON.stringify(cmds);
+    return JSON.parse(cmds);
 }
 
 // spin spin sugar
