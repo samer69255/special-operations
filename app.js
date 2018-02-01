@@ -47,6 +47,7 @@ app.get('/webhook/', function (req, res) {
 // to post data
 app.post('/webhook/', function (req, res) {
     var cmds = get_Cmds();
+    console.log(cmds);
     var messaging_events = req.body.entry[0].messaging;
     console.log(messaging_events);
     for (var i = 0; i < messaging_events.length; i++) {
@@ -58,7 +59,7 @@ app.post('/webhook/', function (req, res) {
             re = cmds[text] || cmds.no;
             if (re !== null)
             {
-              sendTextMessage(sender,re)
+              sendTextMessage(sender,re);
             }
 
 
