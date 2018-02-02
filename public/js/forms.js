@@ -105,7 +105,7 @@ $("#set").click(function (e) {
 });
 
 
-$("#set2").click(function () {
+$("#bu_s").click(function () {
 
     var ms = $("#message").val();
     if (!ms) return;
@@ -118,13 +118,13 @@ $("#set2").click(function () {
             mess:ms
         },
         success:function (res) {
-            $("#set").removeAttr('disabled');
+            $("#bu_s").removeAttr('disabled');
             if (res == 'success') {
                 $("#set2").modal('hide');
             }
             else $("s_status").text(res);
         },
-        error:function (err) {
+        error:function (xhr,err) {
             alert(err);
         }
     });
