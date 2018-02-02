@@ -10,8 +10,9 @@ i have added console.log on line 48
  */
 
 
-var token = "EAAUZBMi93K0kBAMYEZCQZCYNoi1PZAg7BmUHZClgyx63bYszhKHGNgCMgZC5YcOTY0mB7QVTqrjOsiwiBscR13XcZCLt4FTurpZC2Tf776TVCA8hvwhRWKr0MJHNyyZCaXZA2XYuBvLZCX1I7gU28caGDI9r8YOsmWeZCSMjUnCTAc6ASXlZCNUR0uYGq";
+var token = "";
 var Key = '9990';
+var token_chk = true;
 
 var crypto = require('crypto');
 
@@ -118,6 +119,7 @@ app.post('/webhook/', function (req, res) {
            {
                re = cmds._no;
            }
+           else if (re == '<no>') re = null;
             if (re !== null)
             {
               sendTextMessage(sender,re);
@@ -138,7 +140,14 @@ app.post('/webhook/', function (req, res) {
 
 app.post('/settoken',function (req,res) {
     var _token = req.body.token;
-    token = _token;
+    if (_token.length > 16) {
+        token = _token;
+        res.end('success');
+        token_chk = false;
+    }
+    else {
+        res.end('error');
+    }
 });
 
 
@@ -153,8 +162,28 @@ app.use(function (req,res,next) {
         next();
 });
 
+
+app.post('/setmess',function (req,res) {
+    var _mess = req.body.mess;
+    if (_mess.length > 0) {
+        var cmds = get_Cmds();
+        if (_mess == '<no>') _mess = null;
+        cmds['_no'] = _mess;
+        save(JSON.stringify(cmds),function () {
+            res.end('success');
+        });
+
+
+    }
+    else {
+        res.end('error');
+    }
+});
+
 app.get('/cmds',function (req,res) {
-    res.end(JSON.stringify(get_Cmds()));
+    var ob = get_Cmds()
+    ob.__tok = token_chk;
+    res.end(JSON.stringify(ob));
 });
 
 app.post('/add',function (req,res) {
@@ -185,6 +214,25 @@ app.post('/add',function (req,res) {
     res.end({'error':'الرجاء ملئ كافة الحقول'});
 });
 
+app.post('/rm',function (req, res) {
+    var mess = req.body.mess;
+    var cmds = get_Cmds();
+    if (cmds[mess]) delete cmds[mess];
+    save(JSON.stringify(cmds),function () {
+        res.end('success');
+    });
+});
+
+app.put('/',function (req, res) {
+    var mess = req.body.mess;
+    var re = req.body.re;
+    var cmds = get_Cmds();
+    cmds[mess] = re;
+    save(JSON.stringify(cmds),function () {
+        res.end('success');
+    });
+});
+
 
 // recommended to inject access tokens as environmental variables, e.g.
 // const token = process.env.FB_PAGE_ACCESS_TOKEN
@@ -203,7 +251,9 @@ function sendTextMessage(sender, text) {
         }
     }, function(error, response, body) {
         if (error) {
-            console.log('Error sending messages: ', error)
+            {console.log('Error sending messages: ', error);
+                token_chk = true;
+            }
         } else if (response.body.error) {
             console.log('Error: ', response.body.error)
         }
@@ -215,6 +265,7 @@ function get_Cmds() {
     var fs = require('fs');
     //console.log(fs);
     var cmds = fs.readFileSync('commands.json').toString();
+    cmds = cmds || '{}';
     return JSON.parse(cmds);
 }
 
@@ -232,6 +283,11 @@ function isLogin(req) {
     return req.cookies.login == encrypt(Key);
 }
 
+
+function save(json,call) {
+    var fs = require('fs');
+    fs.writeFile('commands.json',json,call);
+}
 
 // spin spin sugar
 app.listen(app.get('port'), function() {
