@@ -13,6 +13,7 @@ i have added console.log on line 48
 var token = "";
 var Key = '9990';
 var token_chk = true;
+var max = 500;
 
 var crypto = require('crypto');
 
@@ -192,6 +193,11 @@ app.post('/add',function (req,res) {
     if (mess && re)
     {
         var cmds = get_Cmds();
+        if (cmds.size > max)
+        {
+            res.end(JSON.stringify({error:'تم تجاوز الحد المسموح'}));
+            return;
+        }
         if (cmds[mess]) {
          var   Res = {error:'تم ادخال امر موجود!'};
          res.end(JSON.stringify(Res));
@@ -293,3 +299,12 @@ function save(json,call) {
 app.listen(app.get('port'), function() {
     console.log('running on port', app.get('port'))
 });
+
+
+Object.size = function(obj) {
+    var size = 0, key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) size++;
+    }
+    return size;
+};
