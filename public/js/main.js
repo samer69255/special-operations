@@ -12,7 +12,7 @@ function addList(mess,re) {
         '    </div>\n' +
         '  ';
     d = $(d);
-    var html = '<a href="javascript:void(0)" id="'+ mess +'" class="list-group-item list-group-item-action flex-column align-items-start" style="\
+    var html = '<a href="javascript:void(0)" id="'+ mess.replace(/\s/g, '_') +'" class="list-group-item list-group-item-action flex-column align-items-start" style="\
     direction: rtl;\
 ">\
                     \
@@ -89,14 +89,15 @@ $(window).click(function (event) {
         if ($(event.target).attr('data-put'))
         {
             var mess = $(event.target).attr('data-put');
-            var re = $('#'+ mess + ' p').text();
+            var re = $('#'+ mess.replace(/\s/g, '_') + ' p').text();
             $("#mess").val(mess);
             $("#b").val(re);
             $("#exampleModal").modal();
 
         }
         else {
-            var s = $(event.target).attr('data-rm')
+            var s = $(event.target).attr('data-rm');
+
             if (!s) return;
             $.ajax({
                 url:'/rm',
@@ -105,6 +106,7 @@ $(window).click(function (event) {
                     mess:s,
                 },
                 success:function (data) {
+                    s = s.replace(/\s/g, '_');
                     if (data == 'success') $('#'+ s).remove();
 
                 }
@@ -151,6 +153,7 @@ function put(mess,re) {
         success:function (data) {
             if (data == 'success') {
                 $("#exampleModal").modal("hide");
+                mess = mess.replace(/\s/g, '_');
                 $('#'+ mess + ' button').val(mess);
                 $('#'+ mess + ' p').text(re);
                 $("#save").removeAttr('disabled');

@@ -1,1 +1,0 @@
-git add . && git rm cmds.txt && git add commit -m "#5 && git push -u origin
