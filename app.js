@@ -193,7 +193,7 @@ app.post('/add',function (req,res) {
     if (mess && re)
     {
         var cmds = get_Cmds();
-        if (cmds.size > max)
+        if (Object.size(cmds) > max)
         {
             res.end(JSON.stringify({error:'تم تجاوز الحد المسموح'}));
             return;
@@ -237,6 +237,10 @@ app.put('/',function (req, res) {
     save(JSON.stringify(cmds),function () {
         res.end('success');
     });
+});
+
+app.del('/delall',function (req, res) {
+    reset(res);
 });
 
 
@@ -308,3 +312,12 @@ Object.size = function(obj) {
     }
     return size;
 };
+
+function reset(res) {
+
+
+    save(JSON.stringify({}),function () {
+        res.end('success');
+    });
+
+}

@@ -132,3 +132,31 @@ $("#bu_s").click(function () {
 
 
 });
+
+
+// reset
+
+$("#reset").click(function (ent) {
+    ent.preventDefault();
+    $('#re_set').modal();
+});
+
+$("#reset_txt").on('input',function () {
+    if ($(this).val() == 'موافق') $("#bu_reset").removeAttr('disabled');
+    else $("#bu_reset").attr("disabled",true);
+});
+
+$("#bu_reset").click(function () {
+    $(this).attr('disabled',true);
+    var ajax =  $.ajax({
+        url:'/delall',
+        type:'DELETE',
+
+        success:function (res) {
+           location.reload();
+        },
+        error:function (xhr,err) {
+            alert(err);
+        }
+    });
+});

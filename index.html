@@ -21,6 +21,15 @@
 <nav class="navbar navbar-expand-lg bg-primary fixed-top" color-on-scroll="400" style="">
     <div class="container">
 
+        <div class="navbar-translate">
+            <a class="navbar-brand" href="#" rel="tooltip" id="reset" title="" data-placement="bottom" data-original-title="حذف كل الرسائل">اعادة التعيين</a>
+            <button class="navbar-toggler navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation" style="">
+                <span class="navbar-toggler-bar bar1"></span>
+                <span class="navbar-toggler-bar bar2"></span>
+                <span class="navbar-toggler-bar bar3"></span>
+            </button>
+        </div>
+
         <div class="collapse navbar-collapse justify-content-end" id="navigation" data-nav-image="./img/blurred-image-1.jpg">
             <ul class="navbar-nav">
                 <li class="nav-item">
@@ -270,6 +279,90 @@
     </div>
 </div>
 <!--   end no reply  -->
+
+
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">new message</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body" style="
+">
+                <form>
+                    <div class="form-group">
+                        <input type="text" placeholder="الرسالة" class="form-control" id="mess" style="">
+                    </div>
+                    <div class="form-group">
+
+                        <textarea placeholder="الرد" class="form-control" id="b"></textarea>
+                    </div>
+
+                    <div class="form-group">
+
+                    </div>
+                </form>
+            </div>
+            <span id="status" style="color: rgb(222, 23, 29);margin-right: auto;margin-left: auto;"></span>
+            <div class="modal-footer" style="
+">
+
+                <button type="button" class="btn btn-danger" id="save">save</button>
+                <button type="button" class="btn btn-info" data-dismiss="modal">close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<!--  token   -->
+<div class="modal fade" id="re_set" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="
+    text-align: right;
+    direction: rtl;
+">
+                <h5 class="modal-title" id="exampleModalLabel">اعادة التعيين</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body" style="
+">
+                <form>
+                    <div class="form-group" style="
+    text-align: right;
+    direction: rtl;
+">
+                        <span>سيؤدي هذا الى حذف جميع تغييراتك اكتب "موافق" للمتابعة</span>
+                        <input type="text" placeholder="" class="form-control" id="reset_txt" style="">
+                    </div>
+
+
+                    <div class="form-group">
+
+                    </div>
+                </form>
+            </div>
+            <span id="t_status"></span>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-danger" id="bu_reset" disabled="disabled">حذف</button>
+                <button type="button" class="btn btn-info" data-dismiss="modal">close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
 
 
 
