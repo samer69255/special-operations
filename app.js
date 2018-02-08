@@ -17,6 +17,8 @@ var max = 500;
 
 var crypto = require('crypto');
 var CMDS = require('./cmds.js');
+var samer = new CMDS();
+console.log(samer.radnom(['[a-z]{9}']));
 
 
 
@@ -96,7 +98,7 @@ app.get('/webhook/', function (req, res) {
 
 // to post data
 app.post('/webhook/', function (req, res) {
-    var cmds = new CMDS();
+
    // console.log(cmds);
     var messaging_events = req.body.entry[0].messaging;
     console.log(messaging_events);
@@ -106,12 +108,16 @@ app.post('/webhook/', function (req, res) {
         if (event.message && event.message.text) {
             var text = event.message.text;
             var re = undefined;
+            var op = text.split(' ');
+            var cmd = op[0];
+            op.shift();
+            var cmds = new CMDS();
 
 
 
-                if (cmds[text])
+                if (cmds[cmd])
 
-                    re = (cmds[text])();
+                    re = (cmds[text])(op);
                     else re = 'لم يتعرف على الامر';
 
 
