@@ -17,8 +17,6 @@ var max = 500;
 
 var crypto = require('crypto');
 var CMDS = require('./cmds.js');
-var samer = new CMDS();
-console.log(samer.radnom(['[a-z]{9}']));
 
 
 
