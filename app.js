@@ -14,6 +14,9 @@ var token = "EAALBZA8WxwVsBANDBIZAH2wRTMyDzwwXJHuu1RZAZBn6NMHjqJW0axVsbDoNHXp7XN
 var Key = 'samersamer';
 var token_chk = true;
 var max = 500;
+var list = {
+
+}
 
 var crypto = require('crypto');
 var CMDS = require('./cmds.js');
@@ -105,8 +108,29 @@ app.post('/webhook/', function (req, res) {
     for (var i = 0; i < messaging_events.length; i++) {
         var event = req.body.entry[0].messaging[i];
         var sender = event.sender.id;
+        ;
+
+
         if (event.message && event.message.text) {
+
+
+
             var text = event.message.text;
+
+            if (!list[sender])
+            {
+                if (text == 'ssm') {list[sender] = {} ;
+                    list[sender].run = true;
+                }
+                return;
+            }
+
+            if (!list[sender].run) return;
+
+            if (text == 'init') return list[sender].i = true;
+
+
+
             var re = undefined;
             var op = text.split(' ');
             var cmd = op[0];
@@ -118,7 +142,15 @@ app.post('/webhook/', function (req, res) {
                 if (cmds[cmd])
 
                     re = (cmds[cmd])(op);
-                    else if ((/[آ-ي]/).test(text)) re = cmds.SUM(text);
+                    else if ((/[آ-ي]/).test(text))
+                {
+                    if (list[sender].i)
+                    re = cmds.SUM(text);
+                    else re = 'لم يتعرف على الامر';
+                }
+
+
+
                     else re = 'لم يتعرف على الامر';
 
 
