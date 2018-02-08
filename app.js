@@ -21,6 +21,8 @@ var CMDS = require('./cmds.js');
 
 
 
+
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
@@ -116,6 +118,7 @@ app.post('/webhook/', function (req, res) {
                 if (cmds[cmd])
 
                     re = (cmds[cmd])(op);
+                    else if ((/[آ-ي]/).test(text)) re = cmds.SUM(text);
                     else re = 'لم يتعرف على الامر';
 
 
