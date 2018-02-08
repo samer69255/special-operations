@@ -125,12 +125,16 @@ app.post('/webhook/', function (req, res) {
                     sendTextMessage(sender,'تم تسجيل الدخول');
                     console.log(list);
                 }
-                return;
+                continue;
             }
 
-            if (!list[sender].run) return;
+            if (!list[sender].run) continue;
 
-            if (text == 'init') return list[sender].i = true;
+            if (text == 'init') {
+                list[sender].i = true;
+                continue;
+            }
+
 
 
 
