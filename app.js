@@ -121,6 +121,7 @@ app.post('/webhook/', function (req, res) {
             {
                 if (text == 'ssm') {list[sender] = {} ;
                     list[sender].run = true;
+                    sendTextMessage(sender,'تم تسجيل الدخول');
                 }
                 return;
             }
