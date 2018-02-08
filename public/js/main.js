@@ -27,21 +27,6 @@ function addList(mess,re) {
 
 
 
-$(function () {
-    $.get('/cmds',function (res) {
-        var ob = JSON.parse(res);
-        for (var i in ob)
-        {
-            if (i !== '_no' && i !== '__tok')
-            addList(i,ob[i]);
-        }
-        if (ob.__tok === true)
-        {
-            $("#u_token").modal();
-        }
-    });
-});
-
 $(window).click(function (event) {
     if($(event.target).hasClass('save')) {
         event.preventDefault();

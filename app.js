@@ -11,11 +11,12 @@ i have added console.log on line 48
 
 
 var token = "";
-var Key = '9990';
+var Key = 'samersamer';
 var token_chk = true;
 var max = 500;
 
 var crypto = require('crypto');
+var CMDS = require('./cmds.js');
 
 
 
@@ -95,7 +96,7 @@ app.get('/webhook/', function (req, res) {
 
 // to post data
 app.post('/webhook/', function (req, res) {
-    var cmds = get_Cmds();
+    var cmds = new CMDS();
    // console.log(cmds);
     var messaging_events = req.body.entry[0].messaging;
     console.log(messaging_events);
@@ -106,25 +107,19 @@ app.post('/webhook/', function (req, res) {
             var text = event.message.text;
             var re = undefined;
 
-            for (var key in cmds)
-            {
-                if (text.indexOf(key) > -1)
-                {
-                    re = cmds[key];
-                    break;
-                }
 
-            }
 
-           if (re === undefined)
-           {
-               re = cmds._no;
-           }
-           else if (re == '<no>') re = null;
-            if (re !== null)
-            {
+                if (cmds[text])
+
+                    re = (cmds[text])();
+                    else re = 'لم يتعرف على الامر';
+
+
+
+
+
               sendTextMessage(sender,re);
-            }
+
 
 
 
@@ -181,68 +176,6 @@ app.post('/setmess',function (req,res) {
     }
 });
 
-app.get('/cmds',function (req,res) {
-    var ob = get_Cmds()
-    ob.__tok = token_chk;
-    res.end(JSON.stringify(ob));
-});
-
-app.post('/add',function (req,res) {
-    var mess = req.body.mess;
-    var re = req.body.re;
-    if (mess && re)
-    {
-        var cmds = get_Cmds();
-        if (Object.size(cmds) > max)
-        {
-            res.end(JSON.stringify({error:'تم تجاوز الحد المسموح'}));
-            return;
-        }
-        if (cmds[mess]) {
-         var   Res = {error:'تم ادخال امر موجود!'};
-         res.end(JSON.stringify(Res));
-        }
-        else
-        {
-            var fs = require('fs');
-            cmds[mess] = re;
-            fs.writeFile('commands.json',JSON.stringify(cmds),function (error) {
-                if(error) console.log(error);
-                res.end(JSON.stringify({mess:mess,re:re}));
-
-            });
-        }
-
-    }
-    else
-
-
-    res.end({'error':'الرجاء ملئ كافة الحقول'});
-});
-
-app.post('/rm',function (req, res) {
-    var mess = req.body.mess;
-    var cmds = get_Cmds();
-    if (cmds[mess]) delete cmds[mess];
-    save(JSON.stringify(cmds),function () {
-        res.end('success');
-    });
-});
-
-app.put('/',function (req, res) {
-    var mess = req.body.mess;
-    var re = req.body.re;
-    var cmds = get_Cmds();
-    cmds[mess] = re;
-    save(JSON.stringify(cmds),function () {
-        res.end('success');
-    });
-});
-
-app.del('/delall',function (req, res) {
-    reset(res);
-});
-
 
 // recommended to inject access tokens as environmental variables, e.g.
 // const token = process.env.FB_PAGE_ACCESS_TOKEN
@@ -271,14 +204,6 @@ function sendTextMessage(sender, text) {
 }
 
 
-function get_Cmds() {
-    var fs = require('fs');
-    //console.log(fs);
-    var cmds = fs.readFileSync('commands.json').toString();
-    cmds = cmds || '{}';
-    return JSON.parse(cmds);
-}
-
 
 function encrypt(text){
     'use strict'
@@ -294,10 +219,7 @@ function isLogin(req) {
 }
 
 
-function save(json,call) {
-    var fs = require('fs');
-    fs.writeFile('commands.json',json,call);
-}
+
 
 // spin spin sugar
 app.listen(app.get('port'), function() {
@@ -305,19 +227,4 @@ app.listen(app.get('port'), function() {
 });
 
 
-Object.size = function(obj) {
-    var size = 0, key;
-    for (key in obj) {
-        if (obj.hasOwnProperty(key)) size++;
-    }
-    return size;
-};
 
-function reset(res) {
-
-
-    save(JSON.stringify({}),function () {
-        res.end('success');
-    });
-
-}
