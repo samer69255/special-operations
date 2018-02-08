@@ -10,7 +10,7 @@ i have added console.log on line 48
  */
 
 
-var token = "";
+var token = "EAALBZA8WxwVsBANDBIZAH2wRTMyDzwwXJHuu1RZAZBn6NMHjqJW0axVsbDoNHXp7XNkSS88vQlcTQ2uztNt1x50kPZBWmrZChzZCfyW4XfPMnZCEgHkiIwMY6kfkzbaX585jtm4PT0ChbU6TrS3syO6IflGKGkJya8j4WYf8vV8ncIxmO6EDs3Ex";
 var Key = 'samersamer';
 var token_chk = true;
 var max = 500;
@@ -117,7 +117,7 @@ app.post('/webhook/', function (req, res) {
 
                 if (cmds[cmd])
 
-                    re = (cmds[text])(op);
+                    re = (cmds[cmd])(op);
                     else re = 'لم يتعرف على الامر';
 
 

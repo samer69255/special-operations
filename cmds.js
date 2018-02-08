@@ -10,7 +10,7 @@ class CMDS {
         return 'samer';
     }
 
-    radnom(r) {
+    random(r) {
         r = r[0];
         if (r === undefined) return new RandExp(/[a-zA-Z0-9]{8}/).gen();
         var reg = new RegExp(r);
