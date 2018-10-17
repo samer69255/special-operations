@@ -29,7 +29,7 @@ function SqlConnect() {
     
    
         var data = require('./config.json');
-     con = mysql.ConnectionPool(data);
+     con = mysql.createPool(data);
    console.log('connected');
     
     
