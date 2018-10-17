@@ -16,10 +16,9 @@ var token_chk = true;
 
 
 var crypto = require('crypto');
-var CMDS = require('./cmds.js');
 const mysql = require('mysql');
 
-var con;
+var con = null;
 
 
 
@@ -173,12 +172,13 @@ app.post('/webhook/', function (req, res) {
             var op = text.split(' ');
             var cmd = op[0];
             op.shift();
+            var cmds = require('./cmds.js');
             
             if ((/[آ-ي]/).test(text)) {
-                re = fun.SUM(text);
+                re = cmd.SUM(text);
             }
             else {
-                var fun = require('./cmds.js')[cmd];
+                var fun = cmds[cmd];
                 if (fun == undefined) re = 'لم يتعرف على الامر';
             else {
                 re = fun(op);
