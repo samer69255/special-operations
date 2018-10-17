@@ -10,7 +10,7 @@ i have added console.log on line 48
  */
 
 
-var token = "EAAELRvdKfxEBAB3YtTAkirkfw876pCLw1ZC7FbgRZBreoMjcZALZA2z3eRYfDxQhOzkwgj4vLErZBfEnEk8qngLttTSCPjMxCG70wpdBqQLXNYMeZC85YJzKuE8ceQMYHaZBuCoMrc6rFiJUwViKBqFb2jsuK1DF4BBdeaKNTupiwZDZD";
+var token = "";
 var Key = 'samersamer';
 var token_chk = true;
 
@@ -29,8 +29,7 @@ function SqlConnect() {
     
    
         var data = require('./config.json');
-    
-     con = mysql.createPool(data);
+     con = mysql.createConnection(data);
     con.connect( err => {
     if (err) throw err;
     console.log('connected');
@@ -45,11 +44,7 @@ con.query('CREATE TABLE IF NOT EXISTS Users (id varchar(255),name varchar(255))'
     if (err) throw err;
     console.log('success');
     con.end();
-    SqlConnect();
-    con.query('SELECT * FROM Users', (err,Res) => {
-        if (err) throw err;
-        console.log(Res);
-    });
+   
     
    
    
