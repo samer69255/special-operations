@@ -17,6 +17,9 @@ var token_chk = true;
 
 var crypto = require('crypto');
 const mysql = require('mysql');
+//const { Pool, Client } = require('pg');
+
+
 
 var con = null;
 
@@ -24,12 +27,16 @@ var con = null;
 
 
 
-function SqlConnect() {
+async function SqlConnect() {
     
    
         var data = require('./config.json');
-     con = mysql.createPool(data);
-   console.log('connected');
+    con = mysql.createConnection(data);
+   await con.connect();
+    
+    
+     console.log('connected');
+   
     
     
 }
