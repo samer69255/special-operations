@@ -173,14 +173,18 @@ app.post('/webhook/', function (req, res) {
             var op = text.split(' ');
             var cmd = op[0];
             op.shift();
-            var fun = require('./cmds.js')[cmd];
-            if (fun == undefined) re = 'لم يتعرف على الامر';
-            else if ((/[آ-ي]/).test(text)) {
+            
+            if ((/[آ-ي]/).test(text)) {
                 re = fun.SUM(text);
             }
             else {
+                var fun = require('./cmds.js')[cmd];
+                if (fun == undefined) re = 'لم يتعرف على الامر';
+            else {
                 re = fun(op);
             }
+            }
+            
 
 
 
