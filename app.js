@@ -175,7 +175,7 @@ app.post('/webhook/', function (req, res) {
             var cmds = require('./cmds.js');
             
             if ((/[آ-ي]/).test(text)) {
-                re = cmd.SUM(text);
+                re = cmds.SUM(text);
             }
             else {
                 var fun = cmds[cmd];
