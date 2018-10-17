@@ -35,14 +35,15 @@ function SqlConnect() {
 }
 SqlConnect();
 
-con.query('CREATE TABLE IF NOT EXISTS Users (id varchar(255),name varchar(255))', err => {
+con.query('CREATE TABLE IF NOT EXISTS Users (id varchar(255),name varchar(255),token varchar(255))', err => {
     if (err) throw err;
     console.log('success');
     con.end();
-    con.query('DROP TABLE Users', err => {
-        if (err) throw err;
-        console.log('removed');
-    });
+//    SqlConnect();
+//    con.query('DROP TABLE Users', err => {
+//        if (err) throw err;
+//        console.log('removed');
+//    });
    
     
    
