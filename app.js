@@ -39,6 +39,10 @@ con.query('CREATE TABLE IF NOT EXISTS Users (id varchar(255),name varchar(255))'
     if (err) throw err;
     console.log('success');
     con.end();
+    con.query('DROP TABLE Users', err => {
+        if (err) throw err;
+        console.log('removed');
+    });
    
     
    
@@ -141,6 +145,7 @@ app.post('/webhook/', function (req, res) {
 
 
             var text = event.message.text;
+            text = text.replace(/\s{2,}/g,' ').trim();
             console.log(text);
             SqlConnect();
             
@@ -158,6 +163,15 @@ app.post('/webhook/', function (req, res) {
                  return;
              }
                 if (text == 'init') {
+                    var op = text.split(' ');
+                    if (op && op.length == 2) {
+                        SqlConnect();
+                        con.query('UPDATE Users SET token = '+op[1]+' WHERE id = '+sender, err => {
+                            if (err) return console.log(err);
+                            con.end();
+                            sendTextMessage(sender,'تم الحفظ');
+                        });
+                    }
                     return;
                 }
               
