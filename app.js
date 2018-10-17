@@ -27,15 +27,15 @@ var con;
 
 function SqlConnect() {
     
-    return new Promise((resolve) => {
+   
         var data = require('./config.json');
-     con = mysql.createConnection(data);
+    
+     con = mysql.createPool(data);
     con.connect( err => {
     if (err) throw err;
     console.log('connected');
-    resolve();
     });
-    });
+   
     
     
 }
