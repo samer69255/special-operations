@@ -29,12 +29,8 @@ function SqlConnect() {
     
    
         var data = require('./config.json');
-     con = mysql.createConnection(data);
-    con.connect( err => {
-    if (err) throw err;
-    console.log('connected');
-    });
-   
+     con = mysql.ConnectionPool(data);
+   console.log('connected');
     
     
 }
