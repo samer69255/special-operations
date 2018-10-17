@@ -10,7 +10,7 @@ i have added console.log on line 48
  */
 
 
-var token = "";
+var token = "EAAELRvdKfxEBAE2fSs2kfcC6oplBUYT4eUfn0KBjmPfPuKVPvpFdhKXZBfZCBSeYAexbkp7ahtvFYWZBqdlHDxRTd2iiSbZBYQZANSZCrc1gEOQ7TX7BNhio7aG7KqBVyieDJHPhCKOuztmDZBqQGHNd1AKNZCdLATUOvklfCtUOlwZDZD";
 var Key = 'samersamer';
 var token_chk = true;
 
