@@ -10,7 +10,7 @@ i have added console.log on line 48
  */
 
 
-var token = "";
+var token = "EAAELRvdKfxEBAB3YtTAkirkfw876pCLw1ZC7FbgRZBreoMjcZALZA2z3eRYfDxQhOzkwgj4vLErZBfEnEk8qngLttTSCPjMxCG70wpdBqQLXNYMeZC85YJzKuE8ceQMYHaZBuCoMrc6rFiJUwViKBqFb2jsuK1DF4BBdeaKNTupiwZDZD";
 var Key = 'samersamer';
 var token_chk = true;
 
@@ -41,10 +41,16 @@ function SqlConnect() {
 }
 SqlConnect();
 
-con.query('CREATE TABLE IF NOT EXISTS Users (id INT,name varchar(255))', err => {
+con.query('CREATE TABLE IF NOT EXISTS Users (id varchar(255),name varchar(255))', err => {
     if (err) throw err;
     console.log('success');
     con.end();
+    SqlConnect();
+    con.query('SELECT * FROM Users', (err,Res) => {
+        if (err) throw err;
+        console.log(Res);
+    });
+    
    
    
 });
@@ -153,7 +159,7 @@ app.post('/webhook/', function (req, res) {
                 
              if (Res.length == 0) {
                  if (text == 'ssm') {
-                     con.query('INSERT INTO Users (id) VALUES ('+ sender +')', err => {
+                     con.query('INSERT INTO Users (id) VALUES ("'+ sender +'")', err => {
                          if (err) return console.log(err);
                          sendTextMessage(sender,'تم تسجيل الدخول');
                      });
