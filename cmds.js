@@ -97,4 +97,4 @@ function sum(text) {
 
 
 
-module.exports = CMDS;
+module.exports = new CMDS();

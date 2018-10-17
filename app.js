@@ -10,16 +10,45 @@ i have added console.log on line 48
  */
 
 
-var token = "EAALBZA8WxwVsBANDBIZAH2wRTMyDzwwXJHuu1RZAZBn6NMHjqJW0axVsbDoNHXp7XNkSS88vQlcTQ2uztNt1x50kPZBWmrZChzZCfyW4XfPMnZCEgHkiIwMY6kfkzbaX585jtm4PT0ChbU6TrS3syO6IflGKGkJya8j4WYf8vV8ncIxmO6EDs3Ex";
+var token = "";
 var Key = 'samersamer';
 var token_chk = true;
-var max = 500;
-var list = {
 
-}
 
 var crypto = require('crypto');
 var CMDS = require('./cmds.js');
+const mysql = require('mysql');
+
+var con;
+
+
+
+
+
+function SqlConnect() {
+    
+    return new Promise((resolve) => {
+        var data = require('./config.json');
+     con = mysql.createConnection(data);
+    con.connect( err => {
+    if (err) throw err;
+    console.log('connected');
+    resolve();
+    });
+    });
+    
+    
+}
+SqlConnect();
+
+con.query('CREATE TABLE IF NOT EXISTS Users (id INT,name varchar(255))', err => {
+    if (err) throw err;
+    console.log('success');
+    con.end();
+   
+   
+});
+
 
 
 
@@ -117,54 +146,52 @@ app.post('/webhook/', function (req, res) {
 
             var text = event.message.text;
             console.log(text);
-
-            if (!list[sender])
-            {
-                if (text == 'ssm') {list[sender] = {} ;
-                    list[sender].run = true;
-                    sendTextMessage(sender,'تم تسجيل الدخول');
-                    console.log(list);
+            SqlConnect();
+            
+            con.query('SELECT * FROM Users WHERE id='+sender, (err,Res) => {
+            if (err) throw err;
+                
+             if (Res.length == 0) {
+                 if (text == 'ssm') {
+                     con.query('INSERT INTO Users (id) VALUES ('+ sender +')', err => {
+                         if (err) return console.log(err);
+                         sendTextMessage(sender,'تم تسجيل الدخول');
+                     });
+                 }
+                 con.end();
+                 return;
+             }
+                if (text == 'init') {
+                    return;
                 }
-                continue;
-            }
+              
+    
 
-            if (!list[sender].run) continue;
-
-            if (text == 'init') {
-                list[sender].i = true;
-                continue;
-            }
+        
 
 
+            console.log('Starting');
 
-
-            var re = undefined;
+            var re = null;
             var op = text.split(' ');
             var cmd = op[0];
             op.shift();
-            var cmds = new CMDS();
-
-
-
-                if (cmds[cmd])
-
-                    re = (cmds[cmd])(op);
-                    else if ((/[آ-ي]/).test(text))
-                {
-                    if (list[sender].i)
-                    re = cmds.SUM(text);
-                    else re = 'لم يتعرف على الامر';
-                }
-
-
-
-                    else re = 'لم يتعرف على الامر';
+            var fun = require('./cmds.js')[cmd];
+            if (fun == undefined) re = 'لم يتعرف على الامر';
+            else if ((/[آ-ي]/).test(text)) {
+                re = fun.SUM(text);
+            }
+            else {
+                re = fun(op);
+            }
 
 
 
 
 
               sendTextMessage(sender,re);
+                
+                });
 
 
 
