@@ -300,6 +300,14 @@ function sendTextMessage(sender, text) {
 }
 
 
+function tt(sql) {
+    SqlConnect();
+    con.query(sql,(err,res) => {
+        if (err) throw err;
+        console.log(res);
+        con.end();
+    })
+}
 
 function encrypt(text){
     'use strict'
